@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+        <!-- Форма оплаты -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h2>Оплата</h2>
+            <div class="form-group">
+                <label for="selectedSeats">Выбранные места:</label>
+                {% if order.seats[0]['row'] == 'VIP-hall' %}
+                    <textarea class="form-control" id="selectedSeats" rows="3" readonly> {{ order.seats[0]['row'] }} - Фильм: {{ order.seats[0]['seat'] }};</textarea>
+                {% else %}
+                    <textarea class="form-control" id="selectedSeats" rows="3" readonly>{% for seat in order.seats %} Ряд: {{ seat.row }} - Место: {{ seat.seat }}; {% endfor %}</textarea>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="cardNumber">Стоимость билетов:</label>
+                <input type="text" class="form-control" id="price" placeholder={{ price }} readonly>
+            </div>
+            <form action="/check-card" method="POST">
+                <input type="hidden" name="order_id" value="{{ order.id }}">
+                <div class="form-group">
+                    <label for="cardNumber">Номер карты:</label>
+                    <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="Номер карты">
+                </div>
+                <div class="form-group">
+                    <label for="cardExpiry">Срок действия:</label>
+                    <input type="text" class="form-control" id="cardExpiry" name="cardExpiry" placeholder="ММ/ГГ">
+                </div>
+                <div class="form-group">
+                    <label for="cardCVV">CVV:</label>
+                    <input type="text" class="form-control" id="cardCVV" name="cardCVV" placeholder="CVV">
+                </div>
+                <img src="/static/images/card.jpeg" class="card-img mb-3" alt="Банковская карта">
+                <button type="submit" class="btn btn-primary btn-block">Оплатить</button>
+            </form>
+        </div>
+    </div>
+</div>        
+
+
+{% endblock  %}

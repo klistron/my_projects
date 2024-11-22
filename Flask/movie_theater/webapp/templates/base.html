@@ -1,0 +1,156 @@
+<!--Главная страница--> 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnPython-Cinema</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    
+    <!-- Стили -->
+    <style>
+        .hero {
+            background-image: url('https://www.cosmos-web.ru/blog/wp-content/uploads/2020/07/blog_target_b.jpg');
+            background-size: cover; /* Формат подложки */
+            font: 15px Arial; /* Размер и шрифт текста */
+            height: 600px; /* Высота */
+            display: flex; /* Автоматически подстраиваться под размеры */
+            align-items: center;
+            justify-content: center; /* Горизонтальное центрирование текста */
+            color: white;
+        }
+        .row {
+            justify-content: center; /* Центрирование рядов */
+        }
+        .seat {
+            width: 40px; /* Ширина места */
+            height: 40px; /* Высота места */
+            background-color:#6f42c1;
+            margin: 5px; /* Отступ между местами */
+            border-radius: 5px; /* Скругление углов */
+            display: inline-block; /* Отображает в ряд */ 
+            position: relative; /* подписи мест по центру*/
+        }
+        .seat-label {
+            position: absolute;
+            top: 50%; /* Центрирование по вертикали */
+            left: 50%; /* Центрирование по горизонтали */
+            transform: translate(-50%, -50%); /* Центрирование по обеим осям */
+            background-color: white; /* Белый цвет фона для круга */
+            border-radius: 50%; /* Круглая форма */
+            width: 25px; /* Ширина круга */
+            height: 25px; /* Высота круга */
+            display: flex; /* Flex для центрирования текста */
+            align-items: center; /* Вертикальное центрирование текста */
+            justify-content: center; /* Горизонтальное центрирование текста */
+            color: #6f42c1; /* Цвет текста (фиолетовый) */
+            font-weight: bold; /* Жирный текст */
+        }
+        .seat.taken {
+            background-color: #dc3545; /* Цвет для занятых мест (красный) */
+            cursor: not-allowed;  
+        }
+        .seat-label.taken {
+            color: #dc3545;
+        }
+
+        .seat.selected {
+            background-color: #28a745;
+        }
+
+        .seat-label.selected {
+            color: #28a745;
+        }
+
+        .seat:not(.taken):hover {
+            background-color: #ffc107;
+        }
+
+        .seat-label:not(.taken):hover {
+            color: #ffc107;
+        }
+
+        .row-label {
+            font-weight: bold; /* Формат текста для подписи ряда (жирный)*/
+            margin: 0 10px; /* Отступ справа */
+            align-self: center; /* Ориентация по-центру */
+
+        
+        }
+        .right-panel {
+            border-left: 2px solid #ccc; /* Граница между залом и формой */
+            padding-left: 20px;
+        }
+        .card-img {
+            max-width: 25%;  /* Максимальная ширина изображения карты */
+            height: auto; /* Авто высота для пропорциональности */
+        }
+        
+        .no-markers {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .scroll-container {
+            max-height: 200px; /* Максимальная высота контейнера */
+            overflow-y: auto; /* Вертикальная прокрутка */
+            border: 1px solid #ccc; /* Граница для визуализации */
+            padding: 10px; /* Отступы внутри контейнера */
+        }
+        
+    </style>
+</head>
+<body>
+
+<header class="bg-dark text-white p-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="logo">LearnPython-Cinema</div>
+        <nav>
+            <a class="text-white mx-2" href="/">Главная</a>
+            <a class="text-white mx-2" href="/#part1">Расписание</a>
+            <a class="text-white mx-2" href="{{ url_for('main.book_vip') }}">Забронировать VIP-зал</a>
+            <a class="text-white mx-2" href="#part2">Контакты</a>
+        </nav>
+        {% if current_user.is_authenticated %}
+            <div>
+                <a class="text-white mx-2" href="{{ url_for('user.user_page') }}">Личный кабинет</a>
+                <a class="text-white mx-2" href="{{ url_for('user.logout') }}">Выйти</a>
+            </div>
+        {% else %}
+            <div>
+                <a class="text-white mx-2" href="{{ url_for('user.login') }}">Войти</a>
+                <a class="text-white mx-2" href="{{ url_for('user.register') }}">Регистрация</a>
+            </div>
+        {% endif %}
+    </div>
+</header>
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                            <div class="alert alert-warning" role="alert">
+                            {% for message in messages %}
+                                {{ message }}<br>
+                            {% endfor %}
+                            </div>
+                            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+
+
+{% block content %} 
+
+{% endblock %}
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

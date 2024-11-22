@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h1>Личный кабинет</h1>
+    </div>
+
+    <div class="card">
+        <h2 class="card-header">Купленные билеты</h2>
+        <div class="scroll-container">
+            <ul class="list-group">
+            {% for order in orders %}
+                <li class="list-group-item"> {{ order.showtime.movie.title }} | Дата: {{ order.showtime.date }} | Время: {{ order.showtime.time.strftime('%H:%M') }} | {% if order.seats[0]['row'] == 'VIP-hall' %} VIP-зал {% else %} {% for seat in order.seats %} Ряд: {{ seat.row }} - Место: {{ seat.seat }}; {% endfor %} {% endif %}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card mt-4">
+        <div class="card-header">
+            **Редактировать профиль**
+        </div>
+        <div class="card-body">
+            <form>
+                <div class="form-group">
+                    <label for="email">Электронная почта</label>
+                    <input type="email" class="form-control" id="email" placeholder="Введите новый email">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" class="form-control" id="phone" placeholder="Введите новый телефон">
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </form>
+            <div>
+                <a href="/logout" class="link-primary text-decoration-none">Выйти из личного кабинета.</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock  %}
